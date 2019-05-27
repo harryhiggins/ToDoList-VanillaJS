@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .content {
+            max-width: 600px;
+            margin: auto;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+        }
+
+        hr {
+            border: 1px solid #ddd;
+        }
+
+        .form-inline {
+            display: flex;
+            flex-flow: row wrap;
+            align-items: center;
+        }
+
+        .form-inline input {
+            flex-grow: 2;
+            vertical-align: middle;
+            margin: 5px 10px 5px 0;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 2px;
+        }
+
+        .form-inline button {
+            padding: 10px 20px;
+            background-color: dodgerblue;
+            border: 1px solid #ddd;
+            color: white;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+        
+        .item {
+            margin: 5px 0;
+            padding: 5px;
+            background-color: #f3f3f3;
+            color: #3a3a3a;
+            font-weight: 500;
+            text-align: left;
+            border-radius: 2px;
+        }
+        
+        .item:hover {
+            cursor: pointer;
+            background-color: #dbdbdb; 
+        }
+
+        .strikethrough {
+            text-decoration: line-through;
+        }
+
+        .itemsContainer {
+            text-align: center;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <h1>To Do List</h1>
+        <div id="todoList" class="itemsContainer"></div>
+        <form class="form-inline">
+            <input type="text" name="item" id="addItemInput" required>
+            <button id="addItemButton">Add List Item</button>
+        </form>
+
+        <hr/>
+        <div id="todoListComplete" class="itemsContainer"></div>
+        </div>
+    </div>
+<script>
+(function() {
+    // get value from form element
+    function getFormValue() {
+        const item = document.getElementById("addItemInput").value;
+        return item;
+    }
+
+    // clear the form input
+    function clearForm() {
+        document.getElementById("addItemInput").value = "";
+    }
+
+    // move element to completed list, add strikethrough style
+    function completeItem(node) {
+        document.getElementById("todoListComplete").appendChild(node);
+        node.classList.add("strikethrough");
+    }
+
+    // add element to the to do list
+    function addItem(node) {
+        document.getElementById("todoList").appendChild(node)
+    }
+
+    // create new node to add on to do list
+    function createItem() {
+        const node = document.createElement("p");
+        // get the form input and create text node
+        const textnode = document.createTextNode(getFormValue());
+        node.appendChild(textnode);
+        node.classList.add("item");
+        // add click event listener to move element to completed list
+        node.addEventListener("click", function(event) {
+            event.preventDefault();
+            completeItem(node);
+        });
+        return node;
+    }
+
+    // add event listener to button to handle new item to add
+    document.getElementById("addItemButton").addEventListener("click", function(event) {
+        event.preventDefault();
+        addItem(createItem());
+        clearForm();
+    });
+})();
+</script>
+
+</body>
+</html>
